@@ -32,7 +32,7 @@ app.post("/api/gemini-chat", async (req, res) => {
   const response = await gemini.models.generateContent({
     model: "gemini-2.5-flash",
     contents: req.body.message,
-    config: { temperature: 1, maxOutputTokens: 500 }
+    config: { temperature: 1, maxOutputTokens: req.body.maxTokens ?? 500 }
   });
   res.json({ text: response.text });
 });
@@ -62,7 +62,7 @@ app.post("/api/cloudflare-chat", async (req, res) => {
     headers: { ...cfHeaders, "Content-Type": "application/json" },
     body: JSON.stringify({
       messages: [{ role: "user", content: req.body.message }],
-      max_tokens: 500
+      max_tokens: req.body.maxTokens ?? 500
     })
   });
   const data = await r.json();
