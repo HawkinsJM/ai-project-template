@@ -79,6 +79,18 @@ async function runTts() {
   displayText = 'speaking...';
 }
 
+async function runMusic() {
+  displayText = 'generating music...';
+  const r = await fetch('/api/music', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt: document.getElementById('music-q').value })
+  });
+  if (!r.ok) { displayText = await r.text(); return; }
+  const blob = await r.blob();
+  new Audio(URL.createObjectURL(blob)).play();
+  displayText = 'playing music...';
+}
+
 async function runSfx() {
   displayText = 'generating sfx...';
   const r = await fetch('/api/sfx', {

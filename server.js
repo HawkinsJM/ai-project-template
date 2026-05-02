@@ -126,6 +126,21 @@ app.post("/api/sfx", async (req, res) => {
   res.send(Buffer.concat(chunks));
 });
 
+// ---- ElevenLabs: music generation ----
+app.post("/api/music", async (req, res) => {
+  const r = await fetch("https://api.elevenlabs.io/v1/music-generation", {
+    method: "POST",
+    headers: {
+      "xi-api-key": process.env.ELEVENLABS_API_KEY,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ prompt: req.body.prompt, duration_seconds: 30 })
+  });
+  if (!r.ok) return res.status(500).json({ error: await r.text() });
+  res.set("Content-Type", "audio/mpeg");
+  res.send(Buffer.from(await r.arrayBuffer()));
+});
+
 // ---- ElevenLabs: text-to-speech (raw fetch — kept for reference) ----
 // app.post("/api/tts", async (req, res) => {
 //   const voiceId = "hpp4J3VqNfWAUOO0d1Us"; // Bella

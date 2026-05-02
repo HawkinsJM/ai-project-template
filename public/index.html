@@ -59,6 +59,13 @@
       <div id="sfx-out"></div>
     </div>
 
+    <div class="widget">
+      <h3>ElevenLabs (music)</h3>
+      <input id="music-q" placeholder="music prompt" value="upbeat jazz piano" />
+      <button onclick="runMusic()">generate</button>
+      <div id="music-out"></div>
+    </div>
+
     <script>
       let lastImageB64 = null;
 
@@ -138,6 +145,19 @@
         if (!r.ok) { document.getElementById('sfx-out').textContent = await r.text(); return; }
         const blob = await r.blob();
         new Audio(URL.createObjectURL(blob)).play();
+      }
+
+      async function runMusic() {
+        const prompt = document.getElementById('music-q').value;
+        const out = document.getElementById('music-out');
+        out.textContent = 'generating...';
+        const r = await fetch('/api/music', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt })
+        });
+        if (!r.ok) { out.textContent = await r.text(); return; }
+        const blob = await r.blob();
+        out.innerHTML = `<audio controls src="${URL.createObjectURL(blob)}"></audio>`;
       }
 
       function blobToBase64(blob) {
