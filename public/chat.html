@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Project Template — LLM chat</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/p5@2.2.2/lib/p5.min.js"></script>
+    <script src="/chat.js" defer></script>
+    <style>
+      #transcript { margin-top: 16px; }
+      .message { padding: 10px 14px; margin: 8px 0; border-radius: 8px; max-width: 72%; }
+      .message strong { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.7; }
+      .message p { margin: 4px 0 0; }
+      .gemini { background: #e8f0fe; margin-right: auto; }
+      .llama  { background: #fdebd0; margin-left: auto; text-align: right; }
+    </style>
+  </head>
+  <body>
+    <h1>LLM vs LLM</h1>
+    <p>Watch Gemini and Llama 4 have a conversation.
+       <a href="/">HTML widgets →</a> · <a href="/sketch.html">p5 sketch →</a></p>
+
+    <div id="sketch-canvas"></div>
+
+    <div class="widget">
+      <h3>Topic</h3>
+      <input id="topic" value="Is free will an illusion?" style="width:45%" />
+      <label style="margin-left:12px">
+        rounds <input id="rounds" type="number" value="6" min="2" max="20" style="width:50px" />
+      </label>
+      <button onclick="startChat()">start</button>
+      <button onclick="stopChat()">stop</button>
+    </div>
+
+    <div id="transcript"></div>
+  </body>
+</html>
